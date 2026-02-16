@@ -1,0 +1,34 @@
+name: Cache Testing CI
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  cache-and-prime:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create dummy dependency
+        run: |
+          mkdir -p .cache-data
+          echo "cache-content-$(date)" > .cache-data/data.txt
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: .cache-data
+          key: cache-67fa08d
+
+      - name: prime-cache-67fa08d
+        run: |
+          echo "Cache hit result: ${{ steps.cache-dependencies.outputs.cache-hit }}"
+          if [ "${{ steps.cache-dependencies.outputs.cache-hit }}" == "true" ]; then
+            echo "Cache Hit!"
+          else
+            echo "Cache Miss!"
+          fi
