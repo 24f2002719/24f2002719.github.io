@@ -31,5 +31,7 @@ jobs:
             echo "Cache Hit!"
           else
             echo "Cache Miss!"
+          fi
+
       - name: 24f2002719@ds.study.iitm.ac.in
         run: echo "Verifying identity for 24f2002719@ds.study.iitm.ac.in"
